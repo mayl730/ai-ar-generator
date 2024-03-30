@@ -6,16 +6,20 @@ export async function generateImageSelectedFile(file, style) {
   const prompts = {
     cartoon:
       "cartoon style, white background, without words, no shadow, 3d render stylized, toon render keyshot, animation style rendering",
+    toy: "3d felted, round, isolated on white color background",
+    pixar:
+      "3D design by Mark Clairedon and Pixar and Hayao Miyazaki and Akira Toriyama, the illustration is a high-definition illustration in 4K resolution with cartoon-style visuals, isolated on white background",
     cyberpunk:
       "made of metal, cyborg, cyberpunk style, hdr, isolate in white background",
+    realistic: "vector, realistic, fantasy, isolate in white background",
   };
 
   const engineId = "stable-diffusion-xl-1024-v1-0";
   const apiHost = "https://api.stability.ai";
   const apiKey = process.env.REACT_APP_API_KEY;
-  console.log(apiKey);
 
   if (!apiKey) throw new Error("Missing Stability API key.");
+  if (!prompts.hasOwnProperty(style)) throw new Error("Invalid style");
 
   const formData = new FormData();
   formData.append("init_image", file);
