@@ -4,14 +4,14 @@ export async function generateImageSelectedFile(file, style) {
   console.log("generateImageSelectedFile: running");
 
   const prompts = {
-    cartoon:
+    Cartoon:
       "cartoon style, white background, without words, no shadow, 3d render stylized, toon render keyshot, animation style rendering",
-    toy: "3d felted, round, isolated on white color background",
-    pixar:
+    Toy: "3d felted, round, isolated on white color background",
+    Pixar:
       "3D design by Mark Clairedon and Pixar and Hayao Miyazaki and Akira Toriyama, the illustration is a high-definition illustration in 4K resolution with cartoon-style visuals, isolated on white background",
-    cyberpunk:
+    Cyberpunk:
       "made of metal, cyborg, cyberpunk style, hdr, isolate in white background",
-    realistic: "vector, realistic, fantasy, isolate in white background",
+    Realistic: "vector, realistic, fantasy, isolate in white background",
   };
 
   const engineId = "stable-diffusion-xl-1024-v1-0";
