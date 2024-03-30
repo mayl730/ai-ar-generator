@@ -44,7 +44,8 @@ const linkPhoto = [
 const StylesScreen = () => {
   const [value, setValue] = useState(null);
 
-  const { file } = useContext(FileContext);
+  const { file, setUploadedFile, setImageResponseData } =
+    useContext(FileContext);
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -54,7 +55,8 @@ const StylesScreen = () => {
 
   const generatePhoto = async () => {
     try {
-      await generateImageSelectedFile(file, value);
+      //   await generateImageSelectedFile(file, value);
+      await generateImageSelectedFile(file, value, setImageResponseData);
     } catch (e) {
       console.log(e);
     }

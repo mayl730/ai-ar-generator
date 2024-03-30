@@ -1,6 +1,10 @@
 import axios from "axios";
 
-export async function generateImageSelectedFile(file, style) {
+export async function generateImageSelectedFile(
+  file,
+  style,
+  setImageResponseData
+) {
   console.log("generateImageSelectedFile: running");
 
   const prompts = {
@@ -48,6 +52,7 @@ export async function generateImageSelectedFile(file, style) {
     .then((responseJSON) => {
       responseJSON.artifacts.forEach((imageResponse, index) => {
         console.log(imageResponse); //base64
+        setImageResponseData(imageResponse);
       });
     })
     .catch((error) => {

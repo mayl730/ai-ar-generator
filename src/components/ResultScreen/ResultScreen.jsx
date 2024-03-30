@@ -1,11 +1,18 @@
-import React from "react";
-import "../Main/Main.css";
+import React, { useContext } from "react";
+import { FileContext } from "../../Contex/FileContext";
 
 const ResultScreen = () => {
+  const { imageResponse } = useContext(FileContext);
+
   return (
     <div>
       <h1>Result Screen</h1>
-      {/* Add your result screen content here */}
+      {imageResponse && imageResponse.base64 && (
+        <img
+          src={`data:image/jpeg;base64,${imageResponse.base64}`}
+          alt="Generated"
+        />
+      )}
     </div>
   );
 };
