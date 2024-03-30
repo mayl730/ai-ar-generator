@@ -1,0 +1,37 @@
+.blocks {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.blocks button {
+    background: linear-gradient(to right, #874AFF, #FF349E);
+    border-radius: 100px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.blocks button span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.blocks a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+@media (max-width: 850px) {
+    .blocks {
+        display: flex;
+        flex-direction: column;
+    }
+}
