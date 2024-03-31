@@ -1,0 +1,19 @@
+.aframe-screen {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  z-index: 100;
+  margin: 20px auto;
+  position: relative;
+  height: 300px;
+  width: 600px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
