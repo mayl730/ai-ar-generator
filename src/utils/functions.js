@@ -1,10 +1,9 @@
 import axios from "axios";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import storage from "../firebase";
+import { v4 } from "uuid";
 
-export async function generateImageSelectedFile(
-  file,
-  style,
-  setImageResponseData
-) {
+export async function generateImageSelectedFile(file, style, setImageURL) {
   console.log("generateImageSelectedFile: running");
 
   const prompts = {
@@ -50,12 +49,68 @@ export async function generateImageSelectedFile(
       return response.data;
     })
     .then((responseJSON) => {
-      responseJSON.artifacts.forEach((imageResponse, index) => {
+      responseJSON.artifacts.forEach((imageResponse) => {
         console.log(imageResponse); //base64
-        setImageResponseData(imageResponse);
+        // setImageResponseData(imageResponse);
+        uploadImage(imageResponse.base64, style, setImageURL);
+        // return imageResponse.base64;
       });
     })
     .catch((error) => {
       console.error("Error:", error);
     });
+}
+
+const base64StringToBlob = (
+  base64,
+  contentType = "image/jpeg",
+  sliceSize = 1024
+) => {
+  // Remove the Data URI prefix if it exists
+  const base64Data = base64.replace(/^data:image\/[a-z]+;base64,/, "");
+
+  // Ensure the Base64 string is properly encoded
+  if (base64Data.length % 4 !== 0) {
+    console.error("Base64 string is not properly encoded.");
+    throw new Error("Base64 string is not properly encoded.");
+  }
+
+  // Decode the Base64 string
+  const byteCharacters = atob(base64Data);
+
+  // Continue with converting to Blob as before
+  const byteArrays = [];
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+
+  return new Blob(byteArrays, { type: contentType });
+};
+
+export async function uploadImage(base64Image, style, setImageURL) {
+  // Assumes base64Image is the Base64 image string
+  const blob = base64StringToBlob(base64Image);
+
+  // Create a unique file name for the upload
+  const fileName = `${style}/${v4()}.jpg`; // Customize as needed
+  const imageRef = ref(storage, fileName);
+
+  try {
+    const snapshot = await uploadBytes(imageRef, blob);
+    const url = await getDownloadURL(snapshot.ref);
+    setImageURL(url); // Use the context method to update the URL in your state
+    console.log("File available at", url);
+    return url; // Optionally return the URL
+  } catch (error) {
+    console.error("Error uploading image: ", error);
+    throw error;
+  }
 }

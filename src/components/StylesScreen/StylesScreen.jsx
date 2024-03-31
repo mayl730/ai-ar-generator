@@ -44,8 +44,7 @@ const linkPhoto = [
 const StylesScreen = () => {
   const [value, setValue] = useState(null);
 
-  const { file, setUploadedFile, setImageResponseData } =
-    useContext(FileContext);
+  const { file, setImageURL } = useContext(FileContext);
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -55,8 +54,7 @@ const StylesScreen = () => {
 
   const generatePhoto = async () => {
     try {
-      //   await generateImageSelectedFile(file, value);
-      await generateImageSelectedFile(file, value, setImageResponseData);
+      await generateImageSelectedFile(file, value, setImageURL);
     } catch (e) {
       console.log(e);
     }
@@ -64,7 +62,6 @@ const StylesScreen = () => {
   return (
     <div className="styles-screen">
       <h2>Choose style</h2>
-      {/* Hello here is File <img src={URL.createObjectURL(file)} style={{width: '300px', height: '300px'}}/> */}
       <div className="list-styles">
         <FormControl component="fieldset">
           <RadioGroup
@@ -80,7 +77,7 @@ const StylesScreen = () => {
                   <FormControlLabel
                     key={index}
                     value={item.name}
-                    control={<Radio sx={{ color: "white" }} />} // Change color to primary color
+                    control={<Radio sx={{ color: "white" }} />}
                     label={item.name}
                   />
                 </div>
