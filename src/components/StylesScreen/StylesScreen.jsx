@@ -9,37 +9,38 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import FormControl from "@mui/material/FormControl";
 import RadioGroup from "@mui/material/RadioGroup";
+import backEnd from "../../style_images/backEnd.js";
 
-import cartoonImage from "../../style_images/cartoon.png";
-import cyberpunkImage from "../../style_images/cyberpunk.png";
-import pixarImage from "../../style_images/pixar.png";
-import toyImage from "../../style_images/toy.png";
-import realisticImage from "../../style_images/realistic.png";
+// import cartoonImage from "../../style_images/cartoon.png";
+// import cyberpunkImage from "../../style_images/cyberpunk.png";
+// import pixarImage from "../../style_images/pixar.png";
+// import toyImage from "../../style_images/toy.png";
+// import realisticImage from "../../style_images/realistic.png";
 
 import { generateImageSelectedFile } from "../../utils/functions.js";
 
-const linkPhoto = [
-  {
-    name: "Cartoon",
-    link: cartoonImage,
-  },
-  {
-    name: "Cyberpunk",
-    link: cyberpunkImage,
-  },
-  {
-    name: "Pixar",
-    link: pixarImage,
-  },
-  {
-    name: "Realistic",
-    link: realisticImage,
-  },
-  {
-    name: "Toy",
-    link: toyImage,
-  },
-];
+// const linkPhoto = [
+//   {
+//     name: "Cartoon",
+//     link: cartoonImage,
+//   },
+//   {
+//     name: "Cyberpunk",
+//     link: cyberpunkImage,
+//   },
+//   {
+//     name: "Pixar",
+//     link: pixarImage,
+//   },
+//   {
+//     name: "Realistic",
+//     link: realisticImage,
+//   },
+//   {
+//     name: "Toy",
+//     link: toyImage,
+//   },
+// ];
 
 const StylesScreen = () => {
   const [value, setValue] = useState(null);
@@ -64,8 +65,8 @@ const StylesScreen = () => {
   return (
     <div className="styles-screen">
       <h2>Choose style</h2>
-      {/* Hello here is File <img src={URL.createObjectURL(file)} style={{width: '300px', height: '300px'}}/> */}
-      <div className="list-styles">
+      {/*  here is File <img src={URL.createObjectURL(file)} style={{width: '300px', height: '300px'}}/> */}
+      
         <FormControl component="fieldset">
           <RadioGroup
             aria-label="photo"
@@ -73,7 +74,8 @@ const StylesScreen = () => {
             value={value}
             onChange={handleChange}
           >
-            {linkPhoto.map((item, index) => (
+            <div className="list-styles">
+            {backEnd.map((item, index) => (
               <Block key={index}>
                 <img src={item.link} alt={item.name} />
                 <div className="radio-selector">
@@ -82,13 +84,14 @@ const StylesScreen = () => {
                     value={item.name}
                     control={<Radio sx={{ color: "white" }} />} // Change color to primary color
                     label={item.name}
-                  />
+                  ></FormControlLabel>
                 </div>
               </Block>
             ))}
+            </div>
           </RadioGroup>
         </FormControl>
-      </div>
+      
       <Link to="/result">
         <Button onClick={generatePhoto}>Choose style & generate</Button>
       </Link>

@@ -1,8 +1,6 @@
 .block {
-    /* background-color: #181A20; */
-    background-color: red;
     width: 300px;
-    height: 300px;
+    min-height: 300px;
     display: flex;
     flex-direction: column;
     justify-content: center;
