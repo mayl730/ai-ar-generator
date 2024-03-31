@@ -1,7 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { FileContext } from "../../Contex/FileContext";
 import { Link } from "react-router-dom";
-
 import Block from "../Blocks/Block";
 import "./StylesScreen.css";
 import { Button } from "@mui/material";
@@ -10,40 +9,14 @@ import Radio from "@mui/material/Radio";
 import FormControl from "@mui/material/FormControl";
 import RadioGroup from "@mui/material/RadioGroup";
 import backEnd from "../../style_images/backEnd.js";
-
-// import cartoonImage from "../../style_images/cartoon.png";
-// import cyberpunkImage from "../../style_images/cyberpunk.png";
-// import pixarImage from "../../style_images/pixar.png";
-// import toyImage from "../../style_images/toy.png";
-// import realisticImage from "../../style_images/realistic.png";
+import axios from "axios";
 
 import { generateImageSelectedFile } from "../../utils/functions.js";
 
-// const linkPhoto = [
-//   {
-//     name: "Cartoon",
-//     link: cartoonImage,
-//   },
-//   {
-//     name: "Cyberpunk",
-//     link: cyberpunkImage,
-//   },
-//   {
-//     name: "Pixar",
-//     link: pixarImage,
-//   },
-//   {
-//     name: "Realistic",
-//     link: realisticImage,
-//   },
-//   {
-//     name: "Toy",
-//     link: toyImage,
-//   },
-// ];
-
 const StylesScreen = () => {
   const [value, setValue] = useState(null);
+
+  const [imgObject, setImageObject] = useState(null)
 
   const { file, setUploadedFile, setImageResponseData } =
     useContext(FileContext);
@@ -52,7 +25,7 @@ const StylesScreen = () => {
     setValue(event.target.value);
   };
 
-  console.log(file);
+  console.log(file, 'Here is a File');
 
   const generatePhoto = async () => {
     try {
@@ -62,6 +35,35 @@ const StylesScreen = () => {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    const madeRequest = () => {
+        axios.post('http://192.168.2.10:8000/crop_resize_image/', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'arraybuffer' 
+          })
+      .then(function (response) {
+        console.log(response.data); 
+        const blob = new Blob([response.data], { type: 'image/png' });
+      // Создаем URL объекта Blob
+      const imgUrl = URL.createObjectURL(blob);
+      console.log(imgUrl);
+        setImageObject(imgUrl)
+      })
+      .catch(function (error) {
+        console.log(error); 
+      });
+        }
+    
+        madeRequest()
+},[])
+
   return (
     <div className="styles-screen">
       <h2>Choose style</h2>

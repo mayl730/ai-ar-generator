@@ -82,7 +82,7 @@ const Blocks = () => {
         <Button onClick={handleButtonClick}>
           {fileState === null ? (
             <span>
-              <CameraAltIcon /> Take or Upload Photo
+              <CameraAltIcon/>  Take or Upload Photo
             </span>
           ) : (
             <span>{fileState.name}</span>
