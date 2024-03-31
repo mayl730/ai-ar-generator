@@ -31,11 +31,11 @@ const MindScreen = () => {
     // prepare form data to be sent to BE
 
     // navigate to AR screen, you have to set once BE resonse is succeeded
-    navigation("/aframe", {
-      state: { cardImage },
-    });
+    // navigation("/aframe", {
+    //   state: { cardImage },
+    // });
 
-    return;
+    // return;
 
     try {
       setUploadStatus("Uploading...");
@@ -51,25 +51,16 @@ const MindScreen = () => {
         }
       );
       if (response.ok) {
-        console.log("Response", response);
-        const result = await response.body;
-
-        // const reader = new FileReader();
-
-        // reader.onload = ()=>
-        console.log(result);
+        // const reader = response.body.getReader()c
+        const blob = await response.blob();
+        const newBlob = new Blob([blob]);
+        const blobUrl = window.URL.createObjectURL(newBlob);
 
         setUploadStatus("Upload successful!");
-        // get mind from BE response should have .mind file
-        // you should extract .mind file
-        // if necessary you have to convert stream to object
-        // store .mind file in context
 
-        setGeneratedMindFile("you must set the mind file here");
+        setGeneratedMindFile(blobUrl);
 
-        // Process the response as needed
-
-        console.log(result);
+        // console.log(result);
 
         navigation("/aframe", {
           state: { cardImage },
